@@ -1,0 +1,12 @@
+{
+  "name": "braintrain",
+  "displayName": "braintrain",
+  "expo": {
+    "name": "braintrain",
+    "slug": "braintrain",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
