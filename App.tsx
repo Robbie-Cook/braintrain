@@ -1,19 +1,51 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
+import HomeScreen from "./components/pages/HomeScreen";
+import styled, { css } from "@emotion/native";
+import MenuPage from "./components/pages/MenuPage";
+import SimpleMaths from "./components/pages/maths/SimpleMaths";
 
 export default function App() {
+  const [page, setPage] = useState<Page>("home");
+
+  let currentPage = (
+    <HomeScreen
+      onNextPage={() => {
+        setPage("menu");
+      }}
+    />
+  );
+
+  if (page === "menu") {
+    // Bind back button to go back to home
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      setPage("home");
+      return true;
+    });
+    currentPage = (
+      <MenuPage
+        setPage={(page) => {
+          setPage(page);
+        }}
+      />
+    );
+  } else if (page === "simple-maths") {
+    // Bind back button to go back to menu
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      setPage("menu");
+      return true;
+    });
+    currentPage = <SimpleMaths />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <View
+      style={css`
+        flex: 1;
+        padding-top: 40px;
+      `}
+    >
+      {currentPage}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
